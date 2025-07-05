@@ -282,7 +282,7 @@ async def on_ready():
     # 스케줄러 시작
     check_qna_task.start()
 
-@tasks.loop(time=dt_time(9, 0))  # 매일 오전 9시
+@tasks.loop(time=dt_time(8, 0))  # 매일 오전 8시
 async def check_qna_task():
     logger.info("정기 질문답변 체크 시작")
     await check_new_qna()

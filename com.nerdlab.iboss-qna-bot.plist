@@ -6,15 +6,15 @@
     <string>com.nerdlab.iboss-qna-bot</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/bin/python3</string>
-        <string>/Users/jaewansim/Documents/nerdlab/news-crawler-bot/src/iboss_qna_bot.py</string>
+        <string>/bin/bash</string>
+        <string>/Users/jaewansim/Documents/nerdlab/news-crawler-bot/run_daily_bot.sh</string>
     </array>
     <key>WorkingDirectory</key>
     <string>/Users/jaewansim/Documents/nerdlab/news-crawler-bot</string>
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
-        <integer>9</integer>
+        <integer>8</integer>
         <key>Minute</key>
         <integer>0</integer>
     </dict>
