@@ -111,22 +111,39 @@ def get_qna_posts():
                 if link and not link.startswith('http'):
                     link = f"https://www.i-boss.co.kr{link}"
                 
-                # 게시물 ID 추출
+                # 게시물 ID 추출 및 실제 링크 생성
                 post_id = ''
+                real_link = link  # 기본값
+                
                 # onclick 속성에서 ID 추출
                 onclick = question.get('onclick', '')
                 if onclick:
-                    match = re.search(r'viewDetail\([\'"]([^\'"]+)', onclick)
+                    # viewDetail('30173') 또는 viewDetail("30173") 형식
+                    match = re.search(r'viewDetail\([\'"](\d+)[\'"]', onclick)
                     if match:
                         post_id = match.group(1)
+                        # 실제 게시물 링크 생성
+                        real_link = f"https://www.i-boss.co.kr/ab-2110-{post_id}"
+                        logger.debug(f"onclick에서 ID 추출: {post_id}, 링크: {real_link}")
                 
-                # ID가 없으면 링크에서 추출
+                # onclick이 없으면 href에서 직접 추출
                 if not post_id and link:
-                    match = re.search(r'ab-2109-(\d+)', link)
+                    # ab-2110-30173 형식의 링크 찾기
+                    match = re.search(r'ab-2110-(\d+)', link)
                     if match:
                         post_id = match.group(1)
+                        real_link = link
+                    else:
+                        # ab-2109로 시작하면 ab-2110으로 변경
+                        match = re.search(r'ab-2109-(\d+)', link)
+                        if match:
+                            post_id = match.group(1)
+                            real_link = f"https://www.i-boss.co.kr/ab-2110-{post_id}"
                 
-                # 그래도 없으면 생성
+                # 최종 링크 설정
+                link = real_link
+                
+                # ID가 없으면 생성
                 if not post_id:
                     post_id = f"qna_{idx}_{datetime.now().strftime('%Y%m%d%H%M')}"
                 

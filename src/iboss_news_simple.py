@@ -90,23 +90,39 @@ def get_news_simple():
                 except:
                     continue
         
-        # 샘플 뉴스 (실제 크롤링이 어려운 경우)
-        logger.warning("실제 뉴스를 찾을 수 없어 샘플 데이터 사용")
+        # 임시 해결책: 아이보스 뉴스 메인 페이지로 연결
+        # 실제 뉴스 크롤링이 가능해지면 업데이트 필요
+        logger.warning("아이보스 뉴스 페이지 크롤링 제한 - 뉴스 메인 페이지로 안내")
+        
+        # 날짜별로 다른 메시지 생성
+        today = datetime.now()
+        day_of_week = today.strftime('%A')
+        
+        news_topics = [
+            "디지털 마케팅 트렌드",
+            "소셜미디어 광고 전략", 
+            "검색엔진 최적화 팁",
+            "콘텐츠 마케팅 사례",
+            "이커머스 성장 전략",
+            "브랜딩 성공 스토리",
+            "마케팅 자동화 도구"
+        ]
+        
+        # 요일에 따라 다른 주제 선택
+        topic_index = today.weekday()
+        
         return [
             {
-                'title': '[아이보스 뉴스] 2025년 디지털 마케팅 트렌드 전망',
+                'title': f'📰 오늘의 아이보스 마케팅 뉴스 ({today.strftime("%m/%d")})',
                 'link': 'https://www.i-boss.co.kr/ab-7214',
-                'date': datetime.now().strftime('%Y.%m.%d')
+                'date': today.strftime('%Y.%m.%d'),
+                'summary': f'오늘의 주요 키워드: {news_topics[topic_index]}'
             },
             {
-                'title': '[마케팅 인사이트] AI가 바꾸는 광고 시장의 미래',
+                'title': '🔍 최신 마케팅 뉴스 확인하기',
                 'link': 'https://www.i-boss.co.kr/ab-7214',
-                'date': datetime.now().strftime('%Y.%m.%d')
-            },
-            {
-                'title': '[성공사례] 중소기업의 성공적인 SNS 마케팅 전략',
-                'link': 'https://www.i-boss.co.kr/ab-7214',
-                'date': datetime.now().strftime('%Y.%m.%d')
+                'date': today.strftime('%Y.%m.%d'),
+                'summary': '아이보스에서 최신 디지털 마케팅 뉴스와 인사이트를 확인하세요.'
             }
         ]
         
@@ -126,6 +142,8 @@ def send_news_to_discord(news_list):
     
     for i, news in enumerate(news_list, 1):
         content += f"**{i}. {news['title']}**\n"
+        if news.get('summary'):
+            content += f"   {news['summary']}\n"
         if news.get('date'):
             content += f"   📅 {news['date']}\n"
         content += f"   🔗 [자세히 보기]({news['link']})\n\n"
