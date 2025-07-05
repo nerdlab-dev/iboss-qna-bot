@@ -1,0 +1,17 @@
+[Unit]
+Description=i-Boss QnA Discord Bot
+After=network.target
+
+[Service]
+Type=simple
+User=your-username
+WorkingDirectory=/path/to/news-crawler-bot
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+ExecStart=/usr/bin/python3 /path/to/news-crawler-bot/src/iboss_qna_bot.py
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/path/to/news-crawler-bot/logs/systemd.log
+StandardError=append:/path/to/news-crawler-bot/logs/systemd-error.log
+
+[Install]
+WantedBy=multi-user.target

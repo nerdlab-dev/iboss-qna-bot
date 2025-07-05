@@ -1,0 +1,31 @@
+{
+    "channels": {
+        "qna": {
+            "id": "1356308018454724772",
+            "name": "아이보스-질의답변-및-마케팅뉴스",
+            "type": "qna",
+            "check_time": {
+                "hour": 9,
+                "minute": 0
+            }
+        },
+        "news": {
+            "id": "1356308018454724772",
+            "name": "아이보스-질의답변-및-마케팅뉴스",
+            "type": "news",
+            "check_time": {
+                "hour": 10,
+                "minute": 0
+            }
+        },
+        "yozm": {
+            "id": "1081414357650505779",
+            "name": "개발과-ai-트렌드",
+            "type": "yozm",
+            "check_time": {
+                "hour": 11,
+                "minute": 0
+            }
+        }
+    }
+} 

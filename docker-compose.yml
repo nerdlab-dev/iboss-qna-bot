@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  iboss-qna-bot:
+    build: .
+    container_name: iboss-qna-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+      - ./last_qna_posts.json:/app/last_qna_posts.json
+    environment:
+      - TZ=Asia/Seoul
