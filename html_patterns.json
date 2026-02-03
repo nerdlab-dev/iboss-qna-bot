@@ -1,0 +1,41 @@
+{
+  "qna": {
+    "best_pattern": "link_ab2110",
+    "patterns": [
+      {
+        "name": "link_ab2110",
+        "count": 25,
+        "sample": {
+          "id": "30178",
+          "title": "광고대행사 pg사 문의합니다ㅠㅠ광고대행업으로 pg 뚫기가 너무 어려운데 방법이 있을까요 공유 해주시면 정말 감사드리겠습니다",
+          "link": "https://www.i-boss.co.kr/ab-2110-30178"
+        }
+      },
+      {
+        "name": "class_article",
+        "count": 20,
+        "sample": {
+          "id": "30178",
+          "title": "광고대행사 pg사 문의합니다ㅠㅠ광고대행업으로 pg 뚫기가 너무 어려운데 방법이 있을까요 공유 해주시면 정말 감사드리겠습니다",
+          "link": "https://www.i-boss.co.kr/ab-2110-30178"
+        }
+      }
+    ],
+    "last_updated": "2025-07-06T15:44:38.594979"
+  },
+  "news": {
+    "best_pattern": "link_ab2877",
+    "patterns": [
+      {
+        "name": "link_ab2877",
+        "count": 33,
+        "sample": {
+          "id": "16652",
+          "title": "스레드, DM 기능 도입…18세 이상 누구나 사용 가능",
+          "link": "https://www.i-boss.co.kr/ab-2877-16652"
+        }
+      }
+    ],
+    "last_updated": "2025-07-06T15:44:06.320925"
+  }
+}
