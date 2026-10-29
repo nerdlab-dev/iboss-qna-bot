@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import asyncio
-from datetime import datetime, time as dt_time, timedelta
+from datetime import datetime, time as dt_time, timedelta, timezone
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -282,7 +282,8 @@ async def on_ready():
     # 스케줄러 시작
     check_qna_task.start()
 
-@tasks.loop(time=dt_time(9, 0))  # 매일 오전 9시
+# discord.py는 시간대가 없으면 UTC로 해석하므로 한국 오전 9시를 명시해요.
+@tasks.loop(time=dt_time(9, 0, tzinfo=timezone(timedelta(hours=9))))
 async def check_qna_task():
     logger.info("정기 질문답변 체크 시작")
     await check_new_qna()
