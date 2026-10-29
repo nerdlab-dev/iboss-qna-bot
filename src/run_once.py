@@ -72,7 +72,10 @@ async def on_ready():
         # 새로운 게시물 전송
         if new_posts:
             logger.info(f"{len(new_posts)}개의 새로운 질문을 발견했습니다.")
-            await send_qna_to_discord(new_posts, channel)
+            if not await send_qna_to_discord(new_posts, channel):
+                logger.warning("전송하지 못한 질문을 다시 확인하도록 이전 게시물 기록을 유지합니다.")
+                await bot.close()
+                return
         else:
             logger.info("새로운 질문이 없습니다.")
             # 테스트를 위해 최신 게시물 1개만 전송

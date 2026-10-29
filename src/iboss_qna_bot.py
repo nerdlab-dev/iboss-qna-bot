@@ -189,10 +189,10 @@ def get_qna_posts():
             driver.quit()
 
 async def send_qna_to_discord(posts, channel):
-    """디스코드 채널에 질문답변 전송"""
+    """디스코드 채널에 질문답변을 전송하고 성공 여부를 반환"""
     if not posts:
         logger.info("전송할 새로운 질문이 없습니다.")
-        return
+        return True
     
     logger.info(f"{len(posts)}개의 새로운 질문을 전송합니다.")
     
@@ -236,8 +236,10 @@ async def send_qna_to_discord(posts, channel):
     try:
         await channel.send(embed=embed)
         logger.info("디스코드 메시지 전송 완료")
+        return True
     except Exception as e:
         logger.error(f"디스코드 메시지 전송 실패: {str(e)}")
+        return False
 
 async def check_new_qna():
     """새로운 질문 확인 및 알림"""
@@ -269,7 +271,9 @@ async def check_new_qna():
     
     # 새로운 게시물 전송
     if new_posts:
-        await send_qna_to_discord(new_posts, channel)
+        if not await send_qna_to_discord(new_posts, channel):
+            logger.warning("전송하지 못한 질문을 다시 확인하도록 이전 게시물 기록을 유지합니다.")
+            return
     else:
         logger.info("새로운 질문이 없습니다.")
     
