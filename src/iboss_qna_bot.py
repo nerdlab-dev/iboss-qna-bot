@@ -17,6 +17,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import logging
 import re
+import tempfile
 
 # 로깅 설정
 logging.basicConfig(
@@ -54,8 +55,20 @@ def load_last_posts():
 
 def save_last_posts(post_ids):
     """마지막 게시물 ID 저장"""
-    with open(LAST_POST_FILE, 'w') as f:
-        json.dump(post_ids, f)
+    temp_path = None
+    try:
+        # Keep the previous history intact until the replacement is fully written.
+        with tempfile.NamedTemporaryFile(
+            mode='w', encoding='utf-8',
+            dir=os.path.dirname(os.path.abspath(LAST_POST_FILE)),
+            prefix='.last_qna_posts-', suffix='.tmp', delete=False,
+        ) as f:
+            temp_path = f.name
+            json.dump(post_ids, f)
+        os.replace(temp_path, LAST_POST_FILE)
+    finally:
+        if temp_path is not None and os.path.exists(temp_path):
+            os.unlink(temp_path)
 
 def get_chrome_driver():
     """Chrome 웹드라이버 설정"""
