@@ -53,7 +53,7 @@ async def on_ready():
         last_post_ids = load_last_posts()
         
         # 새로운 게시물 크롤링
-        posts = get_qna_posts()
+        posts = await asyncio.to_thread(get_qna_posts)
         
         if not posts:
             logger.info("크롤링된 게시물이 없습니다.")
