@@ -239,7 +239,18 @@ async def send_qna_to_discord(posts, channel):
     except Exception as e:
         logger.error(f"디스코드 메시지 전송 실패: {str(e)}")
 
+_qna_check_lock = None
+
 async def check_new_qna():
+    global _qna_check_lock
+    if _qna_check_lock is None:
+        # Python 3.9에서도 실제 실행 중인 루프에 잠금을 연결한다.
+        _qna_check_lock = asyncio.Lock()
+    # 수동 확인과 정기 확인은 게시물 기록까지 한 번에 하나씩 처리한다.
+    async with _qna_check_lock:
+        await _check_new_qna()
+
+async def _check_new_qna():
     """새로운 질문 확인 및 알림"""
     channel_id = CHANNEL_CONFIG['channels']['qna']['id']
     channel = bot.get_channel(int(channel_id))
@@ -252,7 +263,7 @@ async def check_new_qna():
     last_post_ids = load_last_posts()
     
     # 새로운 게시물 크롤링
-    posts = get_qna_posts()
+    posts = await asyncio.to_thread(get_qna_posts)
     
     if not posts:
         logger.info("크롤링된 게시물이 없습니다.")
@@ -299,7 +310,7 @@ async def manual_check(ctx):
 async def test_crawl(ctx):
     """크롤링 테스트"""
     await ctx.send("크롤링 테스트를 시작합니다...")
-    posts = get_qna_posts()
+    posts = await asyncio.to_thread(get_qna_posts)
     if posts:
         await ctx.send(f"✅ 크롤링 성공! {len(posts)}개의 질문을 찾았습니다.")
         await ctx.send(f"최신 질문: {posts[0]['title']}")
