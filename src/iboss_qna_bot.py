@@ -239,9 +239,13 @@ async def send_qna_to_discord(posts, channel):
     except Exception as e:
         logger.error(f"디스코드 메시지 전송 실패: {str(e)}")
 
-_qna_check_lock = asyncio.Lock()
+_qna_check_lock = None
 
 async def check_new_qna():
+    global _qna_check_lock
+    if _qna_check_lock is None:
+        # Python 3.9에서도 실제 실행 중인 루프에 잠금을 연결한다.
+        _qna_check_lock = asyncio.Lock()
     # 수동 확인과 정기 확인은 게시물 기록까지 한 번에 하나씩 처리한다.
     async with _qna_check_lock:
         await _check_new_qna()

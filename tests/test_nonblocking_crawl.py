@@ -32,7 +32,7 @@ class CrawlTests(unittest.IsolatedAsyncioTestCase):
             "load_last_posts": lambda: [],
             "save_last_posts": lambda _: None,
             "send_qna_to_discord": AsyncMock(),
-            "_qna_check_lock": asyncio.Lock(),
+            "_qna_check_lock": None,
         }
 
     async def assert_responsive(self, path, names, entry, args=()):
