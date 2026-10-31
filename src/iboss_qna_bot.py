@@ -122,7 +122,7 @@ def get_qna_posts():
                 
                 # ID가 없으면 링크에서 추출
                 if not post_id and link:
-                    match = re.search(r'ab-2109-(\d+)', link)
+                    match = re.search(r'ab-(?:2109|2110)-(\d+)', link)
                     if match:
                         post_id = match.group(1)
                 
