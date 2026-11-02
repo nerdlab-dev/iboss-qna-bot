@@ -280,7 +280,8 @@ async def check_new_qna():
 async def on_ready():
     logger.info(f'{bot.user} 봇이 시작되었습니다!')
     # 스케줄러 시작
-    check_qna_task.start()
+    if not check_qna_task.is_running():
+        check_qna_task.start()
 
 @tasks.loop(time=dt_time(9, 0))  # 매일 오전 9시
 async def check_qna_task():
